@@ -4,15 +4,16 @@ class Users extends CI_Model {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->database();
 	}
 	
-	function addNewUser(){			
-		$name = $_POST["name"];
-		$account_type_id = $_POST["account_type_id"];		
-		$query_string = "INSERT INTO users ('id', 'name', 'account_type_id') VALUES (NULL," . $name . "," . $account_type_id . ")";		
-		$query = $this->db->query($query_string);	
+	function addNewUser($name, $account_type_id){
+		$data = array(
+			'name'=>$name,
+			'account_type_id'=>$account_type_id
+		);	
+		return $this->db->insert('users', $data);  
 	}
-	
 	
 	// TODO: WRITE THIS
 	function getDrugs($user_id){
