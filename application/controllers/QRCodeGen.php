@@ -2,8 +2,8 @@
 include "application/libraries/phpqrcode/qrlib.php";
 
 class QRCodeGen extends CI_Controller {
-	public function generate($code){		
-		QRcode::png($code);
+	public function generate(){		
+		QRcode::png($_GET["code"]);
 	}
 }
 ?>
