@@ -50,7 +50,7 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `airuoft`.`campus`
+-- Data for table `pharmaQR`.`account_type`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `pharmaQR`;
