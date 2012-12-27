@@ -29,3 +29,16 @@ Note: Error handling isn't implemented yet.
 
 Example:
 http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/addUser/?name=Phil&account_type_id=1
+
+Add new Prescription
+
+Used for a doctor, allows doctor to add a prescription for a patient
+
+Get drugs prescribed to a patient
+
+
+
+
+
+
+
