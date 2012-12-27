@@ -1,0 +1,51 @@
+WINDOWS SETUP 
+
+Setting up host
+
+- Install WAMP from http://www.wampserver.com/en/
+  WAMP is an Apache host that will interpret PHP.
+
+- From the task bar, under Apache access the httpd.conf file. Change the line that says "Listen 80" to "Listen  
+8080"
+
+  This will change the default port number since there is usually a program tha already is using port 80 such
+  as Skype.
+  
+- Start All Services
+- Put Online
+
+That should turn the server on, and the icon should turn green. From there, by going to: http://localhost:8080 
+in a browser should bring up the admin page.
+
+Setting up database
+
+- In the adminpage of WAMP, click the link called "phpmyadmin"
+- Click the SQL tab near the top of the screen which will bring up a page with a text box
+- Copy the script from the database_script.sql file and paste it into that text box. 
+- Click "Go"
+ 
+You should see a new database appear on the left panel that is called "pharaqr"
+
+Accessing the server
+
+- In WAMP, there is a folder called "www" which can be accessed by clicking "www directory" in the WAMP icon. 
+- Place the project in this folder as any file in this folder will be hosted 
+- An example of accessing a page would look like: 
+
+http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/generate/?code=HelloWorld
+That should generate a QR code. 
+
+Side note: 
+index.php - Default page that handles most of the routing and things like that
+QRCodeGen - The controller that has the functionality of the server
+gererate - A function that will look for "code" in the _GET super global array and generate a QR code with its
+value
+
+Editing the code
+
+Personally I use Eclipse because the project contains quite a few files that come with CodeIgniter, but some
+people say NetBeans is better for web development. 
+
+I firstly cloned the git repo into the "www" folder and then opened a previously created project in Eclipse. 
+Might take a few attempts and some tinkering. Also, Eclipse doesn't automatically do text highlighting with
+PHP. A plugin is required. I was lazy and didn't install it, but it is pretty helpful.
