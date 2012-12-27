@@ -1,0 +1,31 @@
+Useage
+
+Note: this is assuming the host is local and using port 8080.
+The plan is to host the server and database on Amazon AWS later so this will
+change.
+
+- The main controller is called QRCodeGen. 
+- To access its functions, one has to route through index.php first. 
+
+Generate QR Code
+
+- Use /index.php/QRCodeGen/generate/?code=STRING
+- This will output an image of a QR code representing the input string
+
+Example: 
+http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hello
+
+Add a new user
+
+- Use /index.php/QRCodeGen/addUser/?name=NAME&account_type_id=ID
+- This will add a user to the database
+- The IDs are 1, 2, and 3 where:
+1 : Doctor
+2 : Patient
+3 : Pharmacist
+
+Anything else will cause an error. 
+Note: Error handling isn't implemented yet.  
+
+Example:
+http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/addUser/?name=Phil&account_type_id=1
