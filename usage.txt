@@ -17,7 +17,7 @@ http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hell
 
 Add a new user
 
-- Use /index.php/QRCodeGen/addUser/?name=NAME&account_type_id=ID
+- Use /index.php/QRCodeGen/addUser/?user=NAME&account_type_id=ID
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
 1 : Doctor
