@@ -17,7 +17,7 @@ http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hell
 
 Add a new user
 
-- Use /index.php/QRCodeGen/addUser/?name=NAME&account_type_id=ID
+- Use /index.php/QRCodeGen/addUser/?user=NAME&account_type_id=ID
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
 1 : Doctor
@@ -29,3 +29,16 @@ Note: Error handling isn't implemented yet.
 
 Example:
 http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/addUser/?name=Phil&account_type_id=1
+
+Add new Prescription
+
+Used for a doctor, allows doctor to add a prescription for a patient
+
+Get drugs prescribed to a patient
+
+
+
+
+
+
+
