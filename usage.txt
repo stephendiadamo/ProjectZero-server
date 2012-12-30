@@ -1,23 +1,28 @@
 Usage
 
-Note: this is assuming the host is local and using port 8080.
-The plan is to host the server and database on Amazon AWS later so this will
-change.
-
 - The main controller is called QRCodeGen. 
 - To access its functions, one has to route through index.php first. 
 
 Generate QR Code
 
-- Use /index.php/QRCodeGen/generate/?code=STRING
+- Use .../index.php/QRCodeGen/generate/?code=STRING
 - This will output an image of a QR code representing the input string
 
 Example: 
-http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hello
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hello
+
+
+Fetch all users 
+
+- Get all users 
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchUsers
+
 
 Add a new user
 
-- Use /index.php/QRCodeGen/addUser/?user=NAME&account_type_id=ID
+- Use .../index.php/QRCodeGen/addUser/?user=NAME&account_type_id=ID
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
 1 : Doctor
@@ -28,13 +33,31 @@ Anything else will cause an error.
 Note: Error handling isn't implemented yet.  
 
 Example:
-http://localhost:8080/ProjectZero-server/index.php/QRCodeGen/addUser/?name=Phil&account_type_id=1
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUser/?user=Bob&account_type_id=2
+
+Get user
+
+- Get prescription info from a user
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUser/?user_id=1
 
 Add new Prescription
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user_id=1&doctor_id=3&drug=advil
 
-Used for a doctor, allows doctor to add a prescription for a patient
+Retrieve QRCode
 
-Get drugs prescribed to a patient
+- Given a user id and a drug name, return the QRCode
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/retrieveQRCode/?user_id=1&drug=advil
+
+Remove user
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/removeUser/?user_id=1
+
+
 
 
 
