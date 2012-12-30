@@ -24,8 +24,15 @@ class QRCodeGen extends CI_Controller {
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
-		if (isset($_GET["user"]) && isset($_GET["account_type_id"])){
-			$this->users->addNewUser($_GET["user"], $_GET["account_type_id"]);
+		if (isset($_GET["user"]) && isset($_GET["account_type_id"]) && isset($_GET["password"])){
+			try{	
+				$this->users->addNewUser($_GET["user"], $_GET["account_type_id"], $_GET["password"]);
+				echo "SUCCESS";
+			} catch (Exception $e) {
+				echo "FAIL";
+			}
+		} else {
+			echo "FAIL";
 		}
 	}
 	
@@ -37,6 +44,8 @@ class QRCodeGen extends CI_Controller {
 			if ($results->result_array() != null){		
 				echo json_encode($results->result_array());
 			}
+		} else {
+			echo "FAIL";
 		}
 	}
 	
@@ -47,6 +56,8 @@ class QRCodeGen extends CI_Controller {
 			if ($results->result_array() != null){		
 				echo json_encode($results->result_array());
 			}
+		} else {
+			echo "FAIL";
 		}
 	}
 	
@@ -55,9 +66,20 @@ class QRCodeGen extends CI_Controller {
 			$user_id = $_GET["user_id"];
 			$doctor_id = $_GET["doctor_id"];
 			$drug = $_GET["drug"];
-			$qrcode = $this->rawGenerate($doctor_id . ";" . $user_id . ";" . $drug);
+			$note = "";
+			if (isset($_GET["note"])){
+				$note = $_GET["note"];
+			}
+			$qrcode = $this->rawGenerate($doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y"));
 			$this->load->model("users");
-			$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode);	
+			try{
+				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, date("Ymd"));				
+				echo "SUCCESS";
+			} catch (Exception $e){
+				echo "FAIL";
+			}				
+		} else {
+			echo "FAIL";
 		}
 	}
 	
@@ -65,7 +87,24 @@ class QRCodeGen extends CI_Controller {
 		if (isset($_GET["user_id"])){
 			$this->load->model("users");
 			$this->users->removeUser($_GET["user_id"]);
+			echo "SUCCESS";
+		} else {
+			echo "FAIL";
 		}
-	}	
+	}
+	
+	public function login(){
+		if (isset($_GET["user"]) && isset($_GET["password"])){
+			$this->load->model("users");
+			$res = $this->users->login($_GET["user"], $_GET["password"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			} else {
+				echo "FAIL";
+			}
+		} else {
+			echo "FAIL";
+		} 
+	}
 }
 ?>
