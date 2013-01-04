@@ -24,15 +24,23 @@ class QRCodeGen extends CI_Controller {
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
-		if (isset($_GET["user"]) && isset($_GET["account_type_id"]) && isset($_GET["password"])){
+		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"])){
 			try{	
-				$this->users->addNewUser($_GET["user"], $_GET["account_type_id"], $_GET["password"]);
+				if ($_GET["account_type_id"] == 2){
+					if (isset($_GET["OHIP"])){
+						$this->users->addNewPatient($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["OHIP"]);
+					} else {
+						echo "FAIL: OHIP ID REQUIRED";
+					}
+				} else {	
+					$this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"]);
+				}
 				echo "SUCCESS";
 			} catch (Exception $e) {
-				echo "FAIL";
+				echo "FAIL: DATABASE ERROR";
 			}
 		} else {
-			echo "FAIL";
+			echo "FAIL: NOT ALL FIELDS FILLED";
 		}
 	}
 	
@@ -55,38 +63,8 @@ class QRCodeGen extends CI_Controller {
 			$results = $this->users->getQRCode($_GET["user_id"], $_GET["drug"]);
 			if ($results->result_array() != null){		
 				$data = $results->result_array();				
-				$image_path = $data[0]["qrcode"];
-				$this->load->helper('url');
-				echo "<img src=". base_url() . $image_path . "/>" ;
-			}
-		} else {
-			echo "FAIL";
-		}
-	}
-	
-	public function addPrescImage(){
-		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
-			$user_id = $_GET["user_id"];
-			$doctor_id = $_GET["doctor_id"];
-			$drug = $_GET["drug"];
-			$note = "";
-			if (isset($_GET["note"])){
-				$note = $_GET["note"];
-			}
-			$path = "QRCodes/";
-			$filename = $path . md5($user_id . "|" . $doctor_id . "|" . $drug) . ".png";        
-			$qrcode = $doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y");
-			QRcode::png($qrcode, $filename, "L", 4, 2);
-			
-			$this->load->helper('url');			
-			echo "<img src=" . base_url(). $filename . ">";
-						
-			$this->load->model("users");
-			try{
-				$this->users->addNewDrug($user_id, $doctor_id, $drug, $filename, $note, date("Ymd"));				
-				echo "SUCCESS";
-			} catch (Exception $e){
-				echo "FAIL";
+				$qrcode_data = $data[0]["qrcode"];
+				QRcode::png($qrcode_data, false, "L", 4, 2);								
 			}
 		} else {
 			echo "FAIL";
@@ -102,18 +80,25 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["note"])){
 				$note = $_GET["note"];
 			}
-			$qrcode = $this->rawGenerate($doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y"));
+			$refills = 0;
+			if (isset($_GET["refills"])){
+				$refills = $_GET["refills"];
+			}					
+			$qrcode = $doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;
+			QRcode::png($qrcode, false, "L", 4, 2);			
+			
+			$this->load->helper('url');			
 			$this->load->model("users");
+			
 			try{
-				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, date("Ymd"));				
-				echo "SUCCESS";
+				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, date("Ymd"), $refills);								
 			} catch (Exception $e){
 				echo "FAIL";
-			}				
+			}
 		} else {
 			echo "FAIL";
 		}
-	}
+	}	
 	
 	public function removeUser(){
 		if (isset($_GET["user_id"])){
