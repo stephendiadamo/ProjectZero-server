@@ -51,6 +51,11 @@ $active_record = TRUE;
 $db['default']['hostname'] = 'aajk4uf6ynlp11.cdtuqiapeobc.us-east-1.rds.amazonaws.com';
 $db['default']['username'] = 'projectzero';
 $db['default']['password'] = '1percent';
+
+//$db['default']['hostname'] = '127.0.0.1';
+//$db['default']['username'] = 'root';
+//$db['default']['password'] = '';
+
 $db['default']['database'] = 'pharmaQR';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

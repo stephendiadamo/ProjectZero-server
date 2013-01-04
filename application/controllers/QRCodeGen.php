@@ -54,7 +54,39 @@ class QRCodeGen extends CI_Controller {
 		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
 			$results = $this->users->getQRCode($_GET["user_id"], $_GET["drug"]);
 			if ($results->result_array() != null){		
-				echo json_encode($results->result_array());
+				$data = $results->result_array();				
+				$image_path = $data[0]["qrcode"];
+				$this->load->helper('url');
+				echo "<img src=". base_url() . $image_path . "/>" ;
+			}
+		} else {
+			echo "FAIL";
+		}
+	}
+	
+	public function addPrescImage(){
+		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
+			$user_id = $_GET["user_id"];
+			$doctor_id = $_GET["doctor_id"];
+			$drug = $_GET["drug"];
+			$note = "";
+			if (isset($_GET["note"])){
+				$note = $_GET["note"];
+			}
+			$path = "QRCodes/";
+			$filename = $path . md5($user_id . "|" . $doctor_id . "|" . $drug) . ".png";        
+			$qrcode = $doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y");
+			QRcode::png($qrcode, $filename, "L", 4, 2);
+			
+			$this->load->helper('url');			
+			echo "<img src=" . base_url(). $filename . ">";
+						
+			$this->load->model("users");
+			try{
+				$this->users->addNewDrug($user_id, $doctor_id, $drug, $filename, $note, date("Ymd"));				
+				echo "SUCCESS";
+			} catch (Exception $e){
+				echo "FAIL";
 			}
 		} else {
 			echo "FAIL";
