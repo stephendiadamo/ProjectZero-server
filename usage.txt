@@ -11,7 +11,6 @@ Generate QR Code
 Example: 
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hello
 
-
 Fetch all users 
 
 - Get all users 
@@ -22,7 +21,7 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 
 Add a new user
 
-- Use .../index.php/QRCodeGen/addUser/?user=NAME&account_type_id=ID
+- Use .../index.php/QRCodeGen/addUser/?user=NAME&password=PASS&account_type_id=ID
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
 1 : Doctor
@@ -41,9 +40,9 @@ Get user
 Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUser/?user_id=1
 
-Add new Prescription
-Example:
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user_id=1&doctor_id=3&drug=advil
+RetrieveQRCode 
+- Get only the QRCode using the drug name and user id
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/retrieveQRCode/?user_id=1&drug=DRUG
 
 Retrieve QRCode
 
@@ -52,16 +51,19 @@ Retrieve QRCode
 Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/retrieveQRCode/?user_id=1&drug=advil
 
+Add new Prescription
+- Add a new prescription
+- Automatically time stamps 
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user_id=1&doctor_id=3&drug=advil&note=HELLO+WORLD
+
 Remove user
 
 Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/removeUser/?user_id=1
 
+Login 
+- Returns the account type on success
 
-
-
-
-
-
-
-
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user=NAME&password=PASS
