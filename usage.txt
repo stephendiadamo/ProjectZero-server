@@ -21,7 +21,11 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 
 Add a new user
 
-- Use .../index.php/QRCodeGen/addUser/?user=NAME&password=PASS&account_type_id=ID
+- .../index.php/QRCodeGen/addUser/?first_name=NAME&last_name=NAME&password=PASS&account_type_id=ID
+
+If the account_type_id = 2 then use:
+.../index.php/QRCodeGen/addUser/?first_name=NAME&last_name=NAME&password=PASS&account_type_id=ID&OHIP=ID
+
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
 1 : Doctor
@@ -32,7 +36,8 @@ Anything else will cause an error.
 Note: Error handling isn't implemented yet.  
 
 Example:
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUser/?user=Bob&account_type_id=2
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUser/?first_name=Stephen&last_name=Diadamo&password=hello&account_type_id=2&OHIP=12345
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUser/?first_name=Stephen&last_name=Diadamo&password=hello&account_type_id=1
 
 Get user
 
@@ -54,9 +59,11 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 Add new Prescription
 - Add a new prescription
 - Automatically time stamps 
+- note is optional
+- refills is optional
 
 Example:
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user_id=1&doctor_id=3&drug=advil&note=HELLO+WORLD
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user_id=1&doctor_id=3&drug=advil&note=HELLO&refills=5
 
 Remove user
 
@@ -67,3 +74,8 @@ Login
 - Returns the account type on success
 
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user=NAME&password=PASS
+
+ScanQR
+TBA Shortly
+
+
