@@ -107,6 +107,16 @@ Edit prescription
 Example: change everything
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/editPresc/?user_id=1&doctor_id=6&drug=Placebo&new_drug=Chicken&refills=5&note=Eat
 
+Get User From Name
+
+Example: 
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUserFromName/?first_name=Chuck&last_name=Norris
+
+Get User From OHIP
+Example: 
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUserFromOHIP/?ohip=1111111
+
+
 
 
 
