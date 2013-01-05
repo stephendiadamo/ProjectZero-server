@@ -106,16 +106,17 @@ class QRCodeGen extends CI_Controller {
 			$did = $_GET["doctor_id"];
 			$drug = $_GET["drug"];
 
-			if (isset($_GET["new_drug"])){
-				$this->users->editPrescDrug($uid, $did, $drug, $_GET["new_drug"]);
-			}
-
 			if (isset($_GET["note"])){
 				$this->users->editPrescNote($uid, $did, $drug, $_GET["note"]);
 			}
 
 			if (isset($_GET["refills"])){
 				$this->users->editPrescRefills($uid, $did, $drug, $_GET["refills"]);	
+			}
+
+			if (isset($_GET["new_drug"])){
+				$this->users->editPrescDrug($uid, $did, $drug, $_GET["new_drug"]);
+				$drug = $_GET["new_drug"];
 			}
 
 			$this->users->fixQRCode($uid, $did, $drug);	
@@ -207,6 +208,33 @@ class QRCodeGen extends CI_Controller {
 			echo "FAIL";
 		} 
 	}
-	
+
+	public function getUserIDFromName(){
+		if (isset($_GET["first_name"]) && isset($_GET["last_name"])){
+			$this->load->model("users");
+			$res = $this->users->getUserIDFromName($_GET["first_name"], $_GET["last_name"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			} else {
+				echo "no such user";
+			}
+		} else {
+			echo "FAIL: FIRST AND LAST NAME NOT ENTERED";
+		}
+	}
+
+	public function getUserIDFromOHIP(){
+		if (isset($_GET["ohip"])){
+			$this->load->model("users");
+			$res = $this->users->getUserIDFromOHIP($_GET["ohip"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			} else {
+				echo "no such user";
+			}
+		} else {
+			echo "FAIL: OHIP NOT ENTERED";
+		}
+	}
 }
 ?>

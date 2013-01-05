@@ -131,7 +131,7 @@ class Users extends CI_Model {
 	// TODO: Implement this
 	function fixQRCode($user_id, $doctor_id, $drug){
 		
-		$query_string = "SELET * FROM prescriptions" .
+		$query_string = "SELECT * FROM prescriptions" .
 						" WHERE user_id = " . $user_id . 
 						" AND drug_name = '" . $drug . "'" .
 						" AND doctor_id = " . $doctor_id;
@@ -150,8 +150,8 @@ class Users extends CI_Model {
 			$qrcode = $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . $date . ";" . $refills . ";" . $times_filled;
 
 			$query_string = "UPDATE prescriptions 
-						 SET qrcode = " . $qrcode .
-						 " WHERE user_id = " . $user_id . 
+						 SET qrcode = '" . $qrcode .
+						 "' WHERE user_id = " . $user_id . 
 						 " AND drug_name = '" . $drug . "'" .
 						 " AND doctor_id = " . $doctor_id;
 			
@@ -186,6 +186,22 @@ class Users extends CI_Model {
 						 "' WHERE id = " . $user_id;
 		return $this->db->query($query_string);	
 	}
+
+	function getUserIDFromName($frist_name, $last_name){
+		$query_string = "SELECT * 
+						 FROM users 
+						 WHERE first_name = '" . $first_name . "'
+						 AND last_name = '" . $last_name . "'";
+		return $this->db->query($query_string);
+	}
+
+	function getUserIDFromOHIP($ohip){
+		$query_string = "SELECT * 
+						 FROM users 
+						 WHERE ohip = '" . $ohip . "'";						 
+		return $this->db->query($query_string);
+	}
+
 }
 
 ?>
