@@ -91,9 +91,9 @@ class QRCodeGen extends CI_Controller {
 	public function scanCode(){
 		$this->load->model("users");
 		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
-												
-			}
-		} else {
+				echo "TEST";								
+		}
+		else {
 			echo "FAIL: USER_ID AND DRUG NAME ARE REQUIRED";
 		}
 	}
