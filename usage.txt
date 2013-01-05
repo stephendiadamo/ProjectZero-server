@@ -11,13 +11,26 @@ Generate QR Code
 Example: 
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/generate/?code=Hello
 
-Fetch all users 
+Fetch Patients 
 
-- Get all users 
+- Get patients
 
 Example:
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchUsers
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchPatients
 
+Fetch Doctors 
+
+- Get Doctors
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchDoctors
+
+Fetch Pharmacists
+
+- Get Pharamacists
+
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchPharmacists
 
 Add a new user
 
@@ -77,5 +90,3 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 
 ScanQR
 TBA Shortly
-
-
