@@ -102,7 +102,7 @@ class Users extends CI_Model {
 
 	function editPrescDrug($user_id, $doctor_id, $drug, $new_drug){
 		$query_string = "UPDATE prescriptions 
-						 SET drug = '" . $new_drug . "'" .
+						 SET drug_name = '" . $new_drug . "'" .
 						 " WHERE user_id = " . $user_id . 
 						 " AND drug_name = '" . $drug . "'" .
 						 " AND doctor_id = " . $doctor_id;
@@ -168,7 +168,7 @@ class Users extends CI_Model {
 
 	function editUserLastName($user_id, $last_name){
 		$query_string = "UPDATE users 
-						 SET first_name = '" . $last_name .
+						 SET last_name = '" . $last_name .
 						 "' WHERE id = " . $user_id;
 		return $this->db->query($query_string);	
 	}

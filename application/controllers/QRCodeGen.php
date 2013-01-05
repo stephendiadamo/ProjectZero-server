@@ -119,6 +119,10 @@ class QRCodeGen extends CI_Controller {
 			}
 
 			$this->users->fixQRCode($uid, $did, $drug);	
+			$results = $this->users->getPrescData($uid);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			}
 		
 		} else {
 			echo "FAIL: REQUIRED INFO NOT SET";
@@ -146,6 +150,7 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["ohip"])){
 				$this->users->editUserOHIP($uid, $_GET["ohip"]);
 			}
+			$this->fetchUsers();
 		}
 	}
 
