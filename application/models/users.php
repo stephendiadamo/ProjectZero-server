@@ -99,6 +99,93 @@ class Users extends CI_Model {
 						 "' AND password = '" . $password . "'"; 		
 		return $this->db->query($query_string);
 	}
+
+	function editPrescDrug($user_id, $doctor_id, $drug, $new_drug){
+		$query_string = "UPDATE prescriptions 
+						 SET drug = '" . $new_drug . "'" .
+						 " WHERE user_id = " . $user_id . 
+						 " AND drug_name = '" . $drug . "'" .
+						 " AND doctor_id = " . $doctor_id;
+		return $this->db->query($query_string);
+	}
+
+	function editPrescNote($user_id, $doctor_id, $drug, $note){
+		$query_string = "UPDATE prescriptions 
+						 SET note = '" . $note . "'" .
+						 " WHERE user_id = " . $user_id . 
+						 " AND drug_name = '" . $drug . "'" .
+						 " AND doctor_id = " . $doctor_id;
+		return $this->db->query($query_string);
+	}
+
+	function editPrescRefills($user_id, $doctor_id, $drug, $refills){
+		$query_string = "UPDATE prescriptions 
+						 SET refills = " . $refills .
+						 " WHERE user_id = " . $user_id . 
+						 " AND drug_name = '" . $drug . "'" .
+						 " AND doctor_id = " . $doctor_id;
+		return $this->db->query($query_string);
+	}
+
+
+	// TODO: Implement this
+	function fixQRCode($user_id, $doctor_id, $drug){
+		
+		$query_string = "SELET * FROM prescriptions" .
+						" WHERE user_id = " . $user_id . 
+						" AND drug_name = '" . $drug . "'" .
+						" AND doctor_id = " . $doctor_id;
+		$data = $this->db->query($query_string);
+		
+		if ($data->result_array() != null){
+			$data = $data->result_array();
+			$user_id = $data[0]["user_id"];
+			$doctor_id = $data[0]["doctor_id"];
+			$drug = $data[0]["drug_name"];
+			$note = $data[0]["note"];
+			$date = $data[0]["date"];
+			$refills = $data[0]["refills"];
+			$times_filled = $data[0]["times_filled"];
+
+			$qrcode = $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . $date . ";" . $refills . ";" . $times_filled;
+
+			$query_string = "UPDATE prescriptions 
+						 SET qrcode = " . $qrcode .
+						 " WHERE user_id = " . $user_id . 
+						 " AND drug_name = '" . $drug . "'" .
+						 " AND doctor_id = " . $doctor_id;
+			
+			return $this->db->query($query_string);
+		}
+	}
+
+	function editUserFirstName($user_id, $first_name){
+		$query_string = "UPDATE users 
+						 SET first_name = '" . $first_name .
+						 "' WHERE id = " . $user_id;
+		return $this->db->query($query_string);	
+	}
+
+	function editUserLastName($user_id, $last_name){
+		$query_string = "UPDATE users 
+						 SET first_name = '" . $last_name .
+						 "' WHERE id = " . $user_id;
+		return $this->db->query($query_string);	
+	}
+
+	function editUserPassword($user_id, $password){
+		$query_string = "UPDATE users 
+						 SET password = '" . $password .
+						 "' WHERE id = " . $user_id;
+		return $this->db->query($query_string);	
+	}
+
+	function editUserOHIP($user_id, $ohip){
+		$query_string = "UPDATE users 
+						 SET OHIP = '" . $ohip .
+						 "' WHERE id = " . $user_id;
+		return $this->db->query($query_string);	
+	}
 }
 
 ?>

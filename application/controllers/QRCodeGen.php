@@ -97,7 +97,59 @@ class QRCodeGen extends CI_Controller {
 			echo "FAIL: USER_ID AND DRUG NAME ARE REQUIRED";
 		}
 	}
+	
+	public function editPresc(){
+				
+		$this->load->model("users");
+		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
+			$uid = $_GET["user_id"];
+			$did = $_GET["doctor_id"];
+			$drug = $_GET["drug"];
+
+			if (isset($_GET["new_drug"])){
+				$this->users->editPrescDrug($uid, $did, $drug, $_GET["new_drug"]);
+			}
+
+			if (isset($_GET["note"])){
+				$this->users->editPrescNote($uid, $did, $drug, $_GET["note"]);
+			}
+
+			if (isset($_GET["refills"])){
+				$this->users->editPrescRefills($uid, $did, $drug, $_GET["refills"]);	
+			}
+
+			$this->users->fixQRCode($uid, $did, $drug);	
 		
+		} else {
+			echo "FAIL: REQUIRED INFO NOT SET";
+		}
+	}
+	
+
+	public function editUser(){
+		$this->load->model("users");
+
+		if (isset($_GET["user_id"])){
+			$uid = $_GET["user_id"];			
+			if (isset($_GET["first_name"])){
+				$this->users->editUserFirstName($uid, $_GET["first_name"]);
+			}
+
+			if (isset($_GET["last_name"])){
+				$this->users->editUserLastName($uid, $_GET["last_name"]);
+			}
+
+			if (isset($_GET["password"])){
+				$this->users->editUserPassword($uid, $_GET["password"]);
+			}
+
+			if (isset($_GET["ohip"])){
+				$this->users->editUserOHIP($uid, $_GET["ohip"]);
+			}
+		}
+	}
+
+
 	public function addPresc(){
 		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
 			$user_id = $_GET["user_id"];
