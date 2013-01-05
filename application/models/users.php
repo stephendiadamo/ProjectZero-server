@@ -187,7 +187,7 @@ class Users extends CI_Model {
 		return $this->db->query($query_string);	
 	}
 
-	function getUserIDFromName($frist_name, $last_name){
+	function getUserIDFromName($first_name, $last_name){
 		$query_string = "SELECT * 
 						 FROM users 
 						 WHERE first_name = '" . $first_name . "'

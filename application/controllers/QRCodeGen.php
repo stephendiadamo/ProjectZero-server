@@ -209,7 +209,7 @@ class QRCodeGen extends CI_Controller {
 		} 
 	}
 
-	public function getUserIDFromName(){
+	public function getUserFromName(){
 		if (isset($_GET["first_name"]) && isset($_GET["last_name"])){
 			$this->load->model("users");
 			$res = $this->users->getUserIDFromName($_GET["first_name"], $_GET["last_name"]);
@@ -223,7 +223,7 @@ class QRCodeGen extends CI_Controller {
 		}
 	}
 
-	public function getUserIDFromOHIP(){
+	public function getUserFromOHIP(){
 		if (isset($_GET["ohip"])){
 			$this->load->model("users");
 			$res = $this->users->getUserIDFromOHIP($_GET["ohip"]);
