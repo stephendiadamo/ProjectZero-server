@@ -7,9 +7,17 @@ class Users extends CI_Model {
 	}
 	
 	function fetchUsers(){
-		return $this->db->get("users");	
+		$this->db->get_where("users",array("account_type_id"=>2));	
 	}
-		
+	
+	function fetchDoctors(){
+		$this->db->get_where("users",array("account_type_id"=>1));	
+	}
+	
+	function fetchPharmacists(){
+		$this->db->get_where("users",array("account_type_id"=>3));	
+	}
+			
 	function addNewPatient($first_name, $last_name, $account_type_id, $password, $ohip){
 		$data = array(
 			'account_type_id'=>$account_type_id,

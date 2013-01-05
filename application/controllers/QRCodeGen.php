@@ -21,6 +21,22 @@ class QRCodeGen extends CI_Controller {
 		}
 	}
 	
+	public function fetchDoctors(){
+		$this->load->model("users");
+		$data = $this->users->fetchDoctors();
+		if ($data->result_array() != null){
+			echo json_encode($data->result_array());
+		}
+	}
+	
+	public function fetchPharmacists(){
+		$this->load->model("users");
+		$data = $this->users->fetchPharmacists();
+		if ($data->result_array() != null){
+			echo json_encode($data->result_array());
+		}
+	}
+		
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
@@ -29,13 +45,14 @@ class QRCodeGen extends CI_Controller {
 				if ($_GET["account_type_id"] == 2){
 					if (isset($_GET["OHIP"])){
 						$this->users->addNewPatient($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["OHIP"]);
+						echo "SUCCESS";
 					} else {
 						echo "FAIL: OHIP ID REQUIRED";
 					}
 				} else {	
 					$this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"]);
-				}
-				echo "SUCCESS";
+					echo "SUCCESS";
+				}				
 			} catch (Exception $e) {
 				echo "FAIL: DATABASE ERROR";
 			}
@@ -71,12 +88,22 @@ class QRCodeGen extends CI_Controller {
 		}
 	}
 	
+	public function scanCode(){
+		$this->load->model("users");
+		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
+												
+			}
+		} else {
+			echo "FAIL: USER_ID AND DRUG NAME ARE REQUIRED";
+		}
+	}
+		
 	public function addPresc(){
 		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
 			$user_id = $_GET["user_id"];
 			$doctor_id = $_GET["doctor_id"];
 			$drug = $_GET["drug"];
-			$note = "";
+			$note = "none";
 			if (isset($_GET["note"])){
 				$note = $_GET["note"];
 			}
@@ -84,7 +111,7 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["refills"])){
 				$refills = $_GET["refills"];
 			}					
-			$qrcode = $doctor_id . ";" . $user_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;
+			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;
 			QRcode::png($qrcode, false, "L", 4, 2);			
 			
 			$this->load->helper('url');			
@@ -123,5 +150,6 @@ class QRCodeGen extends CI_Controller {
 			echo "FAIL";
 		} 
 	}
+	
 }
 ?>
