@@ -90,3 +90,27 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 
 ScanQR
 TBA Shortly
+
+Edit user
+- optional fields: first_name, last_name, ohip, password
+
+Example 1: edit first name and last name
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/editUser/?user_id=1&first_name=John&last_name=smith
+
+Example 2: Edit password and ohip
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/editUser/?user_id=1&password=hello&ohip=1122334455
+
+Edit prescription
+
+- optional fields: new_drug, refills, note
+
+Example: change everything
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/editPresc/?user_id=1&doctor_id=6&drug=Placebo&new_drug=Chicken&refills=5&note=Eat
+
+
+
+
+
+
+
+
