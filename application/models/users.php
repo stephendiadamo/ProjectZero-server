@@ -49,6 +49,14 @@ class Users extends CI_Model {
 						 WHERE user_id = " . $user_id;
 		return $this->db->query($query_string);		
 	}
+
+	function getSinglePrescData($user_id, $drug){	
+		$query_string = "SELECT *
+				         FROM prescriptions
+				         WHERE user_id = " . $user_id .
+				         " AND drug_name = '" . $drug . "'";
+		return $this->db->query($query_string);  
+	}
 	
 	function getQRCode($user_id, $drug){
 		$query_string = "SELECT qrcode
@@ -56,7 +64,6 @@ class Users extends CI_Model {
 				         WHERE user_id = " . $user_id .
 				         " AND drug_name = '" . $drug . "'";
 		return $this->db->query($query_string);  
-	
 	}
 	
 	function addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, $date, $refills){
@@ -72,7 +79,7 @@ class Users extends CI_Model {
 		);	
 		return $this->db->insert('prescriptions', $data);
 	}
-	
+		
 	function scanPresc($user_id, $drug){
 		$decrease_refills = "UPDATE prescriptions
 						 	 SET refills = refills - 1
@@ -127,14 +134,11 @@ class Users extends CI_Model {
 		return $this->db->query($query_string);
 	}
 
-
-	// TODO: Implement this
-	function fixQRCode($user_id, $doctor_id, $drug){
+	function fixQRCode($user_id, $drug){
 		
 		$query_string = "SELECT * FROM prescriptions" .
 						" WHERE user_id = " . $user_id . 
-						" AND drug_name = '" . $drug . "'" .
-						" AND doctor_id = " . $doctor_id;
+						" AND drug_name = '" . $drug . "'";						
 		$data = $this->db->query($query_string);
 		
 		if ($data->result_array() != null){
@@ -153,8 +157,7 @@ class Users extends CI_Model {
 						 SET qrcode = '" . $qrcode .
 						 "' WHERE user_id = " . $user_id . 
 						 " AND drug_name = '" . $drug . "'" .
-						 " AND doctor_id = " . $doctor_id;
-			
+						 " AND doctor_id = " . $doctor_id;			
 			return $this->db->query($query_string);
 		}
 	}

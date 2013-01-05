@@ -91,13 +91,20 @@ class QRCodeGen extends CI_Controller {
 	public function scanCode(){
 		$this->load->model("users");
 		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
-				echo "TEST";								
+			$this->users->scanPresc($_GET["user_id"], $_GET["drug"]);
+			$this->users->fixQRCode($_GET["user_id"], $_GET["drug"]);	
+			$res = $this->users->getSinglePrescData($_GET["user_id"], $_GET["drug"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			} else {
+				echo "No such Prescription";
+			}
 		}
 		else {
 			echo "FAIL: USER_ID AND DRUG NAME ARE REQUIRED";
 		}
 	}
-	
+
 	public function editPresc(){
 				
 		$this->load->model("users");
@@ -119,7 +126,7 @@ class QRCodeGen extends CI_Controller {
 				$drug = $_GET["new_drug"];
 			}
 
-			$this->users->fixQRCode($uid, $did, $drug);	
+			$this->users->fixQRCode($uid, $drug);	
 			$results = $this->users->getPrescData($uid);
 			if ($results->result_array() != null){		
 				echo json_encode($results->result_array());
