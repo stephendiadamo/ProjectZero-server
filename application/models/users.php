@@ -21,7 +21,7 @@ class Users extends CI_Model {
 		return $this->db->query($query);	
 	}
 			
-	function addNewPatient($first_name, $last_name, $account_type_id, $password, $ohip){
+	function addNewUser($first_name, $last_name, $account_type_id, $password, $ohip){
 		$data = array(
 			'account_type_id'=>$account_type_id,
 			'password'=>$password,
@@ -29,19 +29,17 @@ class Users extends CI_Model {
 			'last_name'=>$last_name,
 			'OHIP'=>$ohip
 		);	
-		return $this->db->insert('users', $data);  
-	}
-	
-	function addNewUser($first_name, $last_name, $account_type_id, $password){
-		$data = array(
-			'account_type_id'=>$account_type_id,
-			'password'=>$password,
-			'first_name'=>$first_name,
-			'last_name'=>$last_name,
-			'OHIP'=>"NA"
-		);	
-		return $this->db->insert('users', $data);  
-	}
+
+		$query = "SELECT * FROM users WHERE OHIP = '" . $ohip . "'";
+		$retData = $this->db->query($query);
+		if ($retData->result_array() == null){
+			try{
+				return $this->db->insert('users', $data);
+			} catch (Exception $e){
+				return "FAIL";
+			}
+		}
+	}	
 	
 	function getPrescData($user_id){	
 		$query_string = "SELECT * 

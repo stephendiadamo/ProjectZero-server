@@ -40,18 +40,13 @@ class QRCodeGen extends CI_Controller {
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
-		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"])){
+		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"]) && isset($_GET["ohip"])){
 			try{	
-				if ($_GET["account_type_id"] == 2){
-					if (isset($_GET["OHIP"])){
-						$this->users->addNewPatient($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["OHIP"]);
-						echo "SUCCESS";
-					} else {
-						echo "FAIL: OHIP ID REQUIRED";
-					}
-				} else {	
-					$this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"]);
+				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"]);				
+				if ($retData){
 					echo "SUCCESS";
+				} else {
+					echo "FAIL";
 				}				
 			} catch (Exception $e) {
 				echo "FAIL: DATABASE ERROR";

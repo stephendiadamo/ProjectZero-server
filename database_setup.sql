@@ -24,9 +24,13 @@ DROP TABLE IF EXISTS `pharmaQR`.`users` ;
 
 CREATE  TABLE IF NOT EXISTS `pharmaQR`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(40) NOT NULL ,
+  `OHIP` VARCHAR(40) NOT NULL,
+  `first_name` VARCHAR(40) NOT NULL ,
+  `last_name` VARCHAR(40) NOT NULL,
   `account_type_id`  INT NOT NULL,
-  PRIMARY KEY (`id`), 
+  `password` VARCHAR(40) NOT NULL,
+  UNIQUE(`id`),
+  PRIMARY KEY (`OHIP`), 
   FOREIGN KEY (`account_type_id` )
   REFERENCES `pharmaQR`.`account_type` (`id` ) )
 ENGINE = InnoDB;
