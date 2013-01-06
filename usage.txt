@@ -116,8 +116,12 @@ Get User From OHIP
 Example: 
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUserFromOHIP/?ohip=1111111
 
+Scanning QRCode
+- Will decrease the number of refills, and increase the number of times filled.
+- Returns the new prescription
 
-
+Example:
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/scanCode/?user_id=1&drug=Food
 
 
 
