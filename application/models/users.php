@@ -74,7 +74,7 @@ class Users extends CI_Model {
 	function getPrescById($id){
 		$query_string = "SELECT *
 				         FROM prescriptions
-				         WHERE id = " . $id;
+				         WHERE presc_id = " . $id;
 
 		return $this->db->query($query_string);  
 	}
@@ -96,11 +96,11 @@ class Users extends CI_Model {
 	function scanPresc($presc_id){
 		$decrease_refills = "UPDATE prescriptions
 						 	 SET refills = refills - 1
-						 	 WHERE id = " . $presc_id;
+						 	 WHERE presc_id = " . $presc_id;
 						 	 		
 		$times_filled = "UPDATE prescriptions
 						 	 SET times_filled = times_filled + 1
-						 	 WHERE id = " . $presc_id;
+						 	 WHERE presc_id = " . $presc_id;
 		
 		$this->db->query($decrease_refills);
 		$this->db->query($times_filled);	
