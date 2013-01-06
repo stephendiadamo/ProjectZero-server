@@ -55,8 +55,8 @@ Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUser/?user_id=1
 
 RetrieveQRCode 
-- Get only the QRCode using the drug name and user id
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/retrieveQRCode/?user_id=1&drug=DRUG
+- Get only the QRCode using the prescription ID
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/retrieveQRCode/?presc_id=5
 
 Retrieve QRCode
 
