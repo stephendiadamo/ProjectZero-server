@@ -33,11 +33,7 @@ Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchPharmacists
 
 Add a new user
-
-- .../index.php/QRCodeGen/addUser/?first_name=NAME&last_name=NAME&password=PASS&account_type_id=ID
-
-If the account_type_id = 2 then use:
-.../index.php/QRCodeGen/addUser/?first_name=NAME&last_name=NAME&password=PASS&account_type_id=ID&OHIP=ID
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUser/?first_name=NAME&last_name=NAME&password=PASS&account_type_id=ID&ohip=ID
 
 - This will add a user to the database
 - The IDs are 1, 2, and 3 where:
