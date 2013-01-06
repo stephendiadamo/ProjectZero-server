@@ -188,7 +188,7 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["refills"])){
 				$refills = $_GET["refills"];
 			}					
-			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;			
+			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills . ";" . "0";			
 			$this->load->model("users");
 			
 			try{
