@@ -41,11 +41,15 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `pharmaQR`.`prescriptions` ;
 
 CREATE  TABLE IF NOT EXISTS `pharmaQR`.`prescriptions` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
+  `presc_id` INT NOT NULL AUTO_INCREMENT ,
   `drug_name` VARCHAR(75) NOT NULL ,
   `user_id` INT NOT NULL ,
   `doctor_id` VARCHAR(75) NOT NULL ,
   `qrcode` LONGBLOB NOT NULL,
+  `note` varchar (500),
+  `date` date,
+  `refills` int,
+  `times_filled` int, 
   PRIMARY KEY (`id`) ) 
 ENGINE = InnoDB;
 

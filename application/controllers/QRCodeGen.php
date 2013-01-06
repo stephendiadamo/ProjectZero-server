@@ -71,11 +71,11 @@ class QRCodeGen extends CI_Controller {
 	
 	public function retrieveQRCode(){
 		$this->load->model("users");
-		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
-			$results = $this->users->getSinglePrescData($_GET["user_id"], $_GET["drug"]);
+		if (isset($_GET["presc_id"])){
+			$results = $this->users->getSinglePrescDataById($_GET["presc_id"]);
 			if ($results->result_array() != null){		
 				$data = $results->result_array();								
-				$presc_id = $data[0]["id"];
+				$presc_id = $data[0]["presc_id"];
 				QRcode::png($presc_id, false, "L", 4, 2);								
 			}
 		} else {
@@ -95,7 +95,7 @@ class QRCodeGen extends CI_Controller {
 				$this->users->scanPresc($_GET["presc_id"]);
 				$this->users->fixQRCode($uid, $drug);	
 				
-				$res = $this->users->getSinglePrescData($uid, $drug);
+				$res = $this->users->getSinglePrescDataById($_GET["presc_id"]);
 
 				if ($res->result_array() != null){
 					$temp = $res->result_array();

@@ -55,6 +55,13 @@ class Users extends CI_Model {
 				         " AND drug_name = '" . $drug . "'";
 		return $this->db->query($query_string);  
 	}
+
+	function getSinglePrescDataById($presc_id){	
+		$query_string = "SELECT *
+				         FROM prescriptions
+				         WHERE presc_id = " . $presc_id;
+		return $this->db->query($query_string);  
+	}
 	
 	function getQRCode($user_id, $drug){
 		$query_string = "SELECT qrcode
