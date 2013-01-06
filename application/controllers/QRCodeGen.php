@@ -214,9 +214,9 @@ class QRCodeGen extends CI_Controller {
 	}
 	
 	public function login(){
-		if (isset($_GET["user"]) && isset($_GET["password"])){
+		if (isset($_GET["ohip"]) && isset($_GET["password"])){
 			$this->load->model("users");
-			$res = $this->users->login($_GET["user"], $_GET["password"]);
+			$res = $this->users->login($_GET["ohip"], $_GET["password"]);
 			if ($res->result_array() != null){
 				echo json_encode($res->result_array());
 			} else {

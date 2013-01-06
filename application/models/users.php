@@ -70,7 +70,7 @@ class Users extends CI_Model {
 		$query_string = "SELECT *
 				         FROM prescriptions
 				         WHERE id = " . $id;
-				          
+
 		return $this->db->query($query_string);  
 	}
 	
@@ -105,10 +105,10 @@ class Users extends CI_Model {
 		$this->db->delete('users', array('id' => $user_id));
 	}	
 	
-	function login($user, $password){
-		$query_string = "SELECT account_type_id 
+	function login($ohip, $password){
+		$query_string = "SELECT *
 						 FROM users
-						 WHERE name = '" . $user .
+						 WHERE ohip = '" . $ohip .
 						 "' AND password = '" . $password . "'"; 		
 		return $this->db->query($query_string);
 	}
