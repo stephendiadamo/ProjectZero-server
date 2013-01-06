@@ -84,9 +84,9 @@ Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/removeUser/?user_id=1
 
 Login 
-- Returns the account type on success
+- Returns user data on success
 
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?user=NAME&password=PASS
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?ohip=NUM&password=PASS
 
 ScanQR
 TBA Shortly
