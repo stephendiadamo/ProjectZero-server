@@ -77,11 +77,11 @@ class QRCodeGen extends CI_Controller {
 	public function retrieveQRCode(){
 		$this->load->model("users");
 		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
-			$results = $this->users->getQRCode($_GET["user_id"], $_GET["drug"]);
+			$results = $this->users->getSinglePrescData($_GET["user_id"], $_GET["drug"]);
 			if ($results->result_array() != null){		
-				$data = $results->result_array();				
-				$qrcode_data = $data[0]["qrcode"];
-				QRcode::png($qrcode_data, false, "L", 4, 2);								
+				$data = $results->result_array();								
+				$presc_id = $data[0]["id"];
+				QRcode::png($presc_id, false, "L", 4, 2);								
 			}
 		} else {
 			echo "FAIL";
@@ -90,18 +90,30 @@ class QRCodeGen extends CI_Controller {
 	
 	public function scanCode(){
 		$this->load->model("users");
-		if (isset($_GET["user_id"]) && isset($_GET["drug"])){
-			$this->users->scanPresc($_GET["user_id"], $_GET["drug"]);
-			$this->users->fixQRCode($_GET["user_id"], $_GET["drug"]);	
-			$res = $this->users->getSinglePrescData($_GET["user_id"], $_GET["drug"]);
-			if ($res->result_array() != null){
-				echo json_encode($res->result_array());
+		if (isset($_GET["presc_id"])){			
+			$presc_res = $this->users->getPrescById($_GET["presc_id"]);
+			if ($presc_res->result_array() != null){
+				$data = $presc_res->result_array();				
+				$uid = $data[0]["user_id"];
+				$drug = $data[0]["drug_name"];
+				
+				$this->users->scanPresc($_GET["presc_id"]);
+				$this->users->fixQRCode($uid, $drug);	
+				
+				$res = $this->users->getSinglePrescData($uid, $drug);
+
+				if ($res->result_array() != null){
+					$temp = $res->result_array();
+					echo json_encode(array("qrcode"=>$temp[0]["qrcode"]));
+				} else {
+					echo "No such Prescription";
+				}
 			} else {
-				echo "No such Prescription";
+				echo "No such prescription";
 			}
 		}
 		else {
-			echo "FAIL: USER_ID AND DRUG NAME ARE REQUIRED";
+			echo "FAIL: prescription id is required";
 		}
 	}
 
@@ -176,14 +188,13 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["refills"])){
 				$refills = $_GET["refills"];
 			}					
-			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;
-			QRcode::png($qrcode, false, "L", 4, 2);			
-			
-			$this->load->helper('url');			
+			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills;			
 			$this->load->model("users");
 			
 			try{
 				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, date("Ymd"), $refills);								
+				$last_inserted = strval(mysql_insert_id());
+				QRcode::png($last_inserted, false, "L", 4, 2);
 			} catch (Exception $e){
 				echo "FAIL";
 			}

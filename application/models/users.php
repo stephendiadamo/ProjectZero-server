@@ -65,6 +65,14 @@ class Users extends CI_Model {
 				         " AND drug_name = '" . $drug . "'";
 		return $this->db->query($query_string);  
 	}
+
+	function getPrescById($id){
+		$query_string = "SELECT *
+				         FROM prescriptions
+				         WHERE id = " . $id;
+				          
+		return $this->db->query($query_string);  
+	}
 	
 	function addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, $date, $refills){
 		$data = array(
@@ -79,17 +87,15 @@ class Users extends CI_Model {
 		);	
 		return $this->db->insert('prescriptions', $data);
 	}
-		
-	function scanPresc($user_id, $drug){
+
+	function scanPresc($presc_id){
 		$decrease_refills = "UPDATE prescriptions
 						 	 SET refills = refills - 1
-						 	 WHERE user_id = " . $user_id .
-						 	 " AND drug_name = '" . $drug . "'";
-		
+						 	 WHERE id = " . $presc_id;
+						 	 		
 		$times_filled = "UPDATE prescriptions
 						 	 SET times_filled = times_filled + 1
-						 	 WHERE user_id = " . $user_id .
-						 	 " AND drug_name = '" . $drug . "'";
+						 	 WHERE id = " . $presc_id;
 		
 		$this->db->query($decrease_refills);
 		$this->db->query($times_filled);	
