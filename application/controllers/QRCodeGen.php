@@ -104,7 +104,7 @@ class QRCodeGen extends CI_Controller {
 
 				if ($res->result_array() != null){
 					$temp = $res->result_array();
-					echo json_encode(array("qrcode"=>$temp[0]["qrcode"]));
+					echo $temp[0]["qrcode"];
 				} else {
 					echo "No such Prescription";
 				}
@@ -188,11 +188,23 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["refills"])){
 				$refills = $_GET["refills"];
 			}					
-			$qrcode =  $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . date("d.m.Y") . ";" . $refills . ";" . "0";			
+
+			$date = date("d.m.Y");
+			$qrcode =  array("user_id" => $user_id,
+							 "doctor_id" => $doctor_id,
+							 "drug" => $drug,
+							 "note" => $note,
+							 "date" => $date,
+							 "refills" => $refills,
+							 "times_filled" => "0"
+						);
+
+			
 			$this->load->model("users");
 			
 			try{
-				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qrcode, $note, date("Ymd"), $refills);								
+				$qr_json = json_encode($qrcode);	
+				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qr_json, $note, date("Ymd"), $refills);								
 				$last_inserted = strval(mysql_insert_id());
 				QRcode::png($last_inserted, false, "L", 4, 2);
 			} catch (Exception $e){

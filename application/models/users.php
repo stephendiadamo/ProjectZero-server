@@ -157,7 +157,15 @@ class Users extends CI_Model {
 			$refills = $data[0]["refills"];
 			$times_filled = $data[0]["times_filled"];
 
-			$qrcode = $user_id . ";" . $doctor_id . ";" . $drug . ";" . $note . ";" . $date . ";" . $refills . ";" . $times_filled;
+			$qrcode =  array("user_id" => $user_id,
+							 "doctor_id" => $doctor_id,
+							 "drug" => $drug,
+							 "note" => $note,
+							 "date" => $date,
+							 "refills" => $refills,
+							 "times_filled" => $times_filled
+						);
+			$qrcode = json_encode($qrcode);
 
 			$query_string = "UPDATE prescriptions 
 						 SET qrcode = '" . $qrcode .
