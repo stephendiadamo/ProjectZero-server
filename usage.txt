@@ -84,8 +84,9 @@ Login
 
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addPresc/?ohip=NUM&password=PASS
 
-ScanQR
-TBA Shortly
+ScanCode
+- Decrease the number of refills left on prescription
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/scanCode/?presc_id=5
 
 Edit user
 - optional fields: first_name, last_name, ohip, password
