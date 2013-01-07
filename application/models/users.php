@@ -48,6 +48,15 @@ class Users extends CI_Model {
 		return $this->db->query($query_string);		
 	}
 
+	function getValidPrescData($user_id){
+		$query_string = "SELECT * 
+						 FROM prescriptions
+						 WHERE user_id = " . $user_id . 
+						 " AND refills > -1";
+		return $this->db->query($query_string);
+
+	}
+
 	function getSinglePrescData($user_id, $drug){	
 		$query_string = "SELECT *
 				         FROM prescriptions
@@ -93,7 +102,7 @@ class Users extends CI_Model {
 		return $this->db->insert('prescriptions', $data);
 	}
 
-	function scanPresc($presc_id){
+	function descreasePresc($presc_id){
 		$decrease_refills = "UPDATE prescriptions
 						 	 SET refills = refills - 1
 						 	 WHERE presc_id = " . $presc_id;

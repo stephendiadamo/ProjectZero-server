@@ -57,16 +57,33 @@ class QRCodeGen extends CI_Controller {
 	}
 	
 	// Get info by user_id
-	public function getUser(){	
-		$this->load->model("users");
+	public function getUser(){			
 		if (isset($_GET["user_id"])){
+			$this->load->model("users");
 			$results = $this->users->getPrescData($_GET["user_id"]);
-			if ($results->result_array() != null){		
+			if ($results->result_array() != null){						
 				echo json_encode($results->result_array());
+			} else {
+				echo "No data";
 			}
 		} else {
-			echo "FAIL";
+			echo "FAIL: parameter not set";
 		}
+	}
+
+	public function getValidPrescriptions(){
+		if (isset($_GET["user_id"])){
+			$this->load->model("users");
+			$results = $this->users->getValidPrescData($_GET["user_id"]);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			} else {
+				echo "No data";
+			}
+		} else {
+			echo "FAIL: parameter not set";
+		}
+
 	}
 	
 	public function retrieveQRCode(){
@@ -77,29 +94,56 @@ class QRCodeGen extends CI_Controller {
 				$data = $results->result_array();								
 				$presc_id = $data[0]["presc_id"];
 				QRcode::png($presc_id, false, "L", 4, 2);								
+			} else {
+				echo "No such prescription";
 			}
 		} else {
 			echo "FAIL";
 		}
 	}
 	
-	public function scanCode(){
-		$this->load->model("users");
+	public function decreasePresc(){
 		if (isset($_GET["presc_id"])){			
+			$this->load->model("users");
 			$presc_res = $this->users->getPrescById($_GET["presc_id"]);
 			if ($presc_res->result_array() != null){
 				$data = $presc_res->result_array();				
 				$uid = $data[0]["user_id"];
 				$drug = $data[0]["drug_name"];
-				
-				$this->users->scanPresc($_GET["presc_id"]);
-				$this->users->fixQRCode($uid, $drug);	
-				
+
+				$this->users->descreasePresc($_GET["presc_id"]);
+				$this->users->fixQRCode($uid, $drug);					
+
 				$res = $this->users->getSinglePrescDataById($_GET["presc_id"]);
 
 				if ($res->result_array() != null){
 					$temp = $res->result_array();
-					echo $temp[0]["qrcode"];
+					echo "[".$temp[0]["qrcode"]."]";
+				} else {
+					echo "No such Prescription";
+				}
+			} else {
+				echo "No such prescription";
+			}
+		}
+		else {
+			echo "FAIL: prescription id is required";
+		}
+
+	}
+
+	public function scanCode(){		
+		if (isset($_GET["presc_id"])){			
+			$this->load->model("users");
+			$presc_res = $this->users->getPrescById($_GET["presc_id"]);
+			if ($presc_res->result_array() != null){
+				$data = $presc_res->result_array();				
+				$uid = $data[0]["user_id"];
+				$drug = $data[0]["drug_name"];				
+				$res = $this->users->getSinglePrescDataById($_GET["presc_id"]);
+				if ($res->result_array() != null){
+					$temp = $res->result_array();
+					echo "[".$temp[0]["qrcode"]."]";
 				} else {
 					echo "No such Prescription";
 				}
@@ -169,7 +213,6 @@ class QRCodeGen extends CI_Controller {
 		}
 	}
 
-
 	public function addPresc(){
 		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
 			$user_id = $_GET["user_id"];
@@ -200,7 +243,7 @@ class QRCodeGen extends CI_Controller {
 			try{
 				$qr_json = json_encode($qrcode);	
 				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qr_json, $note, date("Ymd"), $refills);								
-				$last_inserted = strval(mysql_insert_id());
+				$last_inserted = strval(mysql_insert_id());				
 				QRcode::png($last_inserted, false, "L", 4, 2);
 			} catch (Exception $e){
 				echo "FAIL";
