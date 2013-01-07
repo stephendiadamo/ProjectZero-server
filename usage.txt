@@ -16,7 +16,7 @@ Fetch Patients
 - Get patients
 
 Example:
-http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchPatients
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/fetchUsers
 
 Fetch Doctors 
 
