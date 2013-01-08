@@ -114,11 +114,30 @@ Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUserFromOHIP/?ohip=1111111
 
 Scanning QRCode
-- Will decrease the number of refills, and increase the number of times filled.
-- Returns the new prescription as "user_id;doctor_id;drug;note;date;refills;times_refilled"
 - Note: the QRCode being scanned will encode the ID
 Example:
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/scanCode/?presc_id=50
+
+Get Valid Prescriptions
+- Get only prescriptions that have refills 
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getValidPrescriptions/?user_id=1
+
+Decrease Prescription
+- Decrease the number of refills on the prescription
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/decreasePresc/?presc_id=50
+
+Get user info by ID
+- Get the user information with the ID
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getUserByID/?user_id=3
+
+Remove Prescription
+- Remove prescription from DB
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/removePresc/?presc_id=3
+
+
+
+
+
 
 
 
