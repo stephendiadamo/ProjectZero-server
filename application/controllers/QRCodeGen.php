@@ -13,7 +13,7 @@ class QRCodeGen extends CI_Controller {
 	}
 		
 	// DATABASE STUFF: 		
-	public function fetchUsers(){
+	public function fetchPatients(){
 		$this->load->model("users");
 		$data = $this->users->fetchUsers();
 		if ($data->result_array() != null){
@@ -101,7 +101,7 @@ class QRCodeGen extends CI_Controller {
 			echo "FAIL";
 		}
 	}
-	
+
 	public function decreasePresc(){
 		if (isset($_GET["presc_id"])){			
 			$this->load->model("users");
@@ -114,7 +114,7 @@ class QRCodeGen extends CI_Controller {
 				$this->users->descreasePresc($_GET["presc_id"]);
 				$this->users->fixQRCode($uid, $drug);					
 
-				$res = $this->users->getSinglePrescDataById($_GET["presc_id"]);
+				$res = $this->users->getPrescById($_GET["presc_id"]);
 
 				if ($res->result_array() != null){
 					$temp = $res->result_array();
@@ -140,7 +140,7 @@ class QRCodeGen extends CI_Controller {
 				$data = $presc_res->result_array();				
 				$uid = $data[0]["user_id"];
 				$drug = $data[0]["drug_name"];				
-				$res = $this->users->getSinglePrescDataById($_GET["presc_id"]);
+				$res = $this->users->getPrescById($_GET["presc_id"]);
 				if ($res->result_array() != null){
 					$temp = $res->result_array();
 					echo "[".$temp[0]["qrcode"]."]";
@@ -222,7 +222,7 @@ class QRCodeGen extends CI_Controller {
 			if (isset($_GET["note"])){
 				$note = $_GET["note"];
 			}
-			$refills = 0;
+			$refills = 1;
 			if (isset($_GET["refills"])){
 				$refills = $_GET["refills"];
 			}					
@@ -236,15 +236,15 @@ class QRCodeGen extends CI_Controller {
 							 "refills" => $refills,
 							 "times_filled" => "0"
 						);
-
-			
-			$this->load->model("users");
-			
+			$this->load->model("users");			
 			try{
 				$qr_json = json_encode($qrcode);	
 				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qr_json, $note, date("Ymd"), $refills);								
-				$last_inserted = strval(mysql_insert_id());				
-				QRcode::png($last_inserted, false, "L", 4, 2);
+				$last_inserted = strval(mysql_insert_id());		
+				$res = $this->users->getPrescById($last_inserted);
+				if ($res->result_array() != null){
+					echo json_encode($res->result_array());
+				}					
 			} catch (Exception $e){
 				echo "FAIL";
 			}
@@ -302,6 +302,30 @@ class QRCodeGen extends CI_Controller {
 			}
 		} else {
 			echo "FAIL: OHIP NOT ENTERED";
+		}
+	}
+
+	public function getUserByID(){
+		if (isset($_GET["user_id"])){
+			$this->load->model("users");
+			$res = $this->users->getUserById($_GET["user_id"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			} else {
+				echo "no such user";
+			}
+		} else {
+			echo "FAIL: ID NOT ENTERED";
+		}
+	}
+
+	public function removePresc(){
+		if(isset($_GET["presc_id"])){
+			$this->load->model("users");
+			$this->users->removePresc($_GET["presc_id"]);
+			echo "SUCCESS";
+		} else {
+			echo "FAIL";
 		}
 	}
 }

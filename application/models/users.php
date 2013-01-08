@@ -52,7 +52,7 @@ class Users extends CI_Model {
 		$query_string = "SELECT * 
 						 FROM prescriptions
 						 WHERE user_id = " . $user_id . 
-						 " AND refills > -1";
+						 " AND refills > 0";
 		return $this->db->query($query_string);
 
 	}
@@ -65,13 +65,6 @@ class Users extends CI_Model {
 		return $this->db->query($query_string);  
 	}
 
-	function getSinglePrescDataById($presc_id){	
-		$query_string = "SELECT *
-				         FROM prescriptions
-				         WHERE presc_id = " . $presc_id;
-		return $this->db->query($query_string);  
-	}
-	
 	function getQRCode($user_id, $drug){
 		$query_string = "SELECT qrcode
 				         FROM prescriptions
@@ -80,10 +73,10 @@ class Users extends CI_Model {
 		return $this->db->query($query_string);  
 	}
 
-	function getPrescById($id){
+	function getPrescById($presc_id){
 		$query_string = "SELECT *
 				         FROM prescriptions
-				         WHERE presc_id = " . $id;
+				         WHERE presc_id = " . $presc_id;
 
 		return $this->db->query($query_string);  
 	}
@@ -231,6 +224,17 @@ class Users extends CI_Model {
 						 FROM users 
 						 WHERE ohip = '" . $ohip . "'";						 
 		return $this->db->query($query_string);
+	}
+
+	function getUserById($id){
+			$query_string = "SELECT * 
+						 FROM users 
+						 WHERE id = " . $id;
+		return $this->db->query($query_string);
+	}
+
+	function removePresc($presc_id){
+		return $this->db->delete('prescriptions', array('presc_id' => $presc_id));
 	}
 
 }
