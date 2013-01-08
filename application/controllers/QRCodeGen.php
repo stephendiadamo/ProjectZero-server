@@ -40,9 +40,9 @@ class QRCodeGen extends CI_Controller {
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
-		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"]) && isset($_GET["ohip"])){
+		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"]) && isset($_GET["ohip"]) && isset($_GET["birthday"])){
 			try{	
-				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"]);				
+				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"], $_GET["birthday"]);
 				if ($retData){
 					echo "SUCCESS";
 				} else {

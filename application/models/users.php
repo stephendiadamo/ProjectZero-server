@@ -21,13 +21,14 @@ class Users extends CI_Model {
 		return $this->db->query($query);	
 	}
 			
-	function addNewUser($first_name, $last_name, $account_type_id, $password, $ohip){
+	function addNewUser($first_name, $last_name, $account_type_id, $password, $ohip, $birthday){
 		$data = array(
 			'account_type_id'=>$account_type_id,
 			'password'=>$password,
 			'first_name'=>$first_name,
 			'last_name'=>$last_name,
-			'OHIP'=>$ohip
+			'OHIP'=>$ohip,
+			'birthday'=>$birthday
 		);	
 
 		$query = "SELECT * FROM users WHERE OHIP = '" . $ohip . "'";
