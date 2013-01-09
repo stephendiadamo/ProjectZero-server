@@ -134,6 +134,14 @@ Remove Prescription
 - Remove prescription from DB
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/removePresc/?presc_id=3
 
+Get valid prescription by valid field
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getValidPresc/?user_id=3
+
+Get invalid prescription by valid field 
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getInvalidPresc/?user_id=3
+
+Set prescription invalid
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/makePrescInvalid/?presc_id=3
 
 
 
