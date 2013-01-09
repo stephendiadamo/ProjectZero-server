@@ -143,12 +143,3 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 Set prescription invalid
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/makePrescInvalid/?presc_id=3
 
-
-
-
-
-
-
-
-
-
