@@ -83,13 +83,12 @@ class QRCodeGen extends CI_Controller {
 		} else {
 			echo "FAIL: parameter not set";
 		}
-
 	}
 	
 	public function retrieveQRCode(){
 		$this->load->model("users");
 		if (isset($_GET["presc_id"])){
-			$results = $this->users->getSinglePrescDataById($_GET["presc_id"]);
+			$results = $this->users->getPrescById($_GET["presc_id"]);
 			if ($results->result_array() != null){		
 				$data = $results->result_array();								
 				$presc_id = $data[0]["presc_id"];
@@ -326,6 +325,49 @@ class QRCodeGen extends CI_Controller {
 			echo "SUCCESS";
 		} else {
 			echo "FAIL";
+		}
+	}
+
+	public function getValidPresc(){
+		if (isset($_GET["user_id"])){
+			$this->load->model("users");
+			$results = $this->users->getValidPrescDataByValid($_GET["user_id"]);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			} else {
+				echo "No data";
+			}
+		} else {
+			echo "FAIL: parameter not set";
+		}
+
+	}
+
+	public function getInvalidPresc(){
+		if (isset($_GET["user_id"])){
+			$this->load->model("users");
+			$results = $this->users->getValidPrescDataByInvalid($_GET["user_id"]);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			} else {
+				echo "No data";
+			}
+		} else {
+			echo "FAIL: parameter not set";
+		}
+
+	}
+
+	public function makePrescInvalid(){
+		if (isset($_GET["presc_id"])){
+			$this->load->model("users");
+			$this->users->setPrescInvalid($_GET["presc_id"]);
+			$results = $this->users->getPrescById($_GET["presc_id"]);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			}
+		} else {
+			echo "FAIL: id not set";
 		}
 	}
 }

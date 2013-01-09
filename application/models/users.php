@@ -55,7 +55,6 @@ class Users extends CI_Model {
 						 WHERE user_id = " . $user_id . 
 						 " AND refills > 0";
 		return $this->db->query($query_string);
-
 	}
 
 	function getSinglePrescData($user_id, $drug){	
@@ -164,6 +163,8 @@ class Users extends CI_Model {
 			$date = $data[0]["date"];
 			$refills = $data[0]["refills"];
 			$times_filled = $data[0]["times_filled"];
+			$isValid = $data[0]["isValid"];
+
 
 			$qrcode =  array("user_id" => $user_id,
 							 "doctor_id" => $doctor_id,
@@ -171,7 +172,8 @@ class Users extends CI_Model {
 							 "note" => $note,
 							 "date" => $date,
 							 "refills" => $refills,
-							 "times_filled" => $times_filled
+							 "times_filled" => $times_filled,
+							 "isValid"=>$isValid
 						);
 			$qrcode = json_encode($qrcode);
 
@@ -238,6 +240,28 @@ class Users extends CI_Model {
 		return $this->db->delete('prescriptions', array('presc_id' => $presc_id));
 	}
 
+	function setPrescInvalid($presc_id){
+		$query_string = "UPDATE prescriptions 
+						 SET isValid = 'no' 
+						 WHERE presc_id = " . $presc_id;
+		return $this->db->query($query_string);
+	}
+
+	function getValidPrescDataByValid($user_id){
+		$query_string = "SELECT * 
+						 FROM prescriptions
+						 WHERE user_id = " . $user_id . 
+						 " AND isValid = 'yes'";
+		return $this->db->query($query_string);
+	}
+
+	function getValidPrescDataByInvalid($user_id){
+		$query_string = "SELECT * 
+						 FROM prescriptions
+						 WHERE user_id = " . $user_id . 
+						 " AND isValid = 'no'";
+		return $this->db->query($query_string);
+	}
 }
 
 ?>
