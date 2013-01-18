@@ -98,11 +98,13 @@ class Users extends CI_Model {
 	function descreasePresc($presc_id){
 		$decrease_refills = "UPDATE prescriptions
 						 	 SET refills = refills - 1
-						 	 WHERE presc_id = " . $presc_id;
+						 	 WHERE presc_id = " . $presc_id .
+						 	 " AND refills > 0";
 						 	 		
 		$times_filled = "UPDATE prescriptions
 						 	 SET times_filled = times_filled + 1
-						 	 WHERE presc_id = " . $presc_id;
+						 	 WHERE presc_id = " . $presc_id . 
+						 	 " AND refills > 0";
 		
 		$this->db->query($decrease_refills);
 		$this->db->query($times_filled);	
@@ -262,6 +264,29 @@ class Users extends CI_Model {
 						 " AND isValid = 'no'";
 		return $this->db->query($query_string);
 	}
+
+	function fixInvalid($presc_id){
+		$query_string = "SELECT refills
+						 FROM prescriptions 
+						 WHERE presc_id = " . $presc_id;
+		$result = $this->db->query($query_string);
+		if ($result->result_array() != null){		
+				$data = $result->result_array();								
+				$num_refills = $data[0]["refills"];
+				if ($num_refills <= 0) {
+					 $this->setPrescInvalid($presc_id);
+				}
+		}
+		return $result;
+	}
+
+	function addUserDescription($user_id, $descr){
+		$query_string = "UPDATE users 
+						 SET description = '" . $descr . "'" .
+						 " WHERE id = " . $user_id;
+		return $this->db->query($query_string);
+	}
+
 }
 
 ?>

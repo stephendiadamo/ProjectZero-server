@@ -35,16 +35,22 @@ class QRCodeGen extends CI_Controller {
 		if ($data->result_array() != null){
 			echo json_encode($data->result_array());
 		}
-	}
-		
+	}		
 	// Add a new user	
 	public function addUser(){		
 		$this->load->model("users");
 		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"]) && isset($_GET["ohip"]) && isset($_GET["birthday"])){
-			try{	
+			try{									
 				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"], $_GET["birthday"]);
 				if ($retData){
-					echo "SUCCESS";
+					$data =  array("first_name"=>$_GET["first_name"],
+							   "last_name"=>$_GET["last_name"],
+							   "account_type_id"=>$_GET["account_type_id"],
+							   "password"=>$_GET["password"],
+							   "ohip"=>$_GET["ohip"],
+							   "birthday"=>$_GET["birthday"]
+							);
+					echo "[" . json_encode($data) . "]";
 				} else {
 					echo "FAIL";
 				}				
@@ -111,7 +117,8 @@ class QRCodeGen extends CI_Controller {
 				$drug = $data[0]["drug_name"];
 
 				$this->users->descreasePresc($_GET["presc_id"]);
-				$this->users->fixQRCode($uid, $drug);					
+				$this->users->fixQRCode($uid, $drug);
+				$this->users->fixInvalid($_GET["presc_id"]);
 
 				$res = $this->users->getPrescById($_GET["presc_id"]);
 
@@ -233,12 +240,13 @@ class QRCodeGen extends CI_Controller {
 							 "note" => $note,
 							 "date" => $date,
 							 "refills" => $refills,
-							 "times_filled" => "0"
+							 "times_filled" => "0",
+							 "isValid"=>"yes"
 						);
 			$this->load->model("users");			
 			try{
 				$qr_json = json_encode($qrcode);	
-				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qr_json, $note, date("Ymd"), $refills);								
+				$this->users->addNewDrug($user_id, $doctor_id, $drug, $qr_json, $note, date("Ymd"), $refills);
 				$last_inserted = strval(mysql_insert_id());		
 				$res = $this->users->getPrescById($last_inserted);
 				if ($res->result_array() != null){
@@ -370,5 +378,19 @@ class QRCodeGen extends CI_Controller {
 			echo "FAIL: id not set";
 		}
 	}
+
+	public function addUserDescription(){
+		if (isset($_GET["user_id"]) && isset($_GET["description"])){
+			$this->load->model("users");
+			$this->users->addUserDescription($_GET["user_id"], $_GET["description"]);			
+			$results = $this->users->getUserById($_GET["user_id"]);
+			if ($results->result_array() != null){		
+				echo json_encode($results->result_array());
+			}
+		} else {
+			echo "FAIL";
+		}
+	}
+
 }
 ?>
