@@ -21,14 +21,15 @@ class Users extends CI_Model {
 		return $this->db->query($query);	
 	}
 			
-	function addNewUser($first_name, $last_name, $account_type_id, $password, $ohip, $birthday){
+	function addNewUser($first_name, $last_name, $account_type_id, $password, $ohip, $birthday, $description){
 		$data = array(
 			'account_type_id'=>$account_type_id,
 			'password'=>$password,
 			'first_name'=>$first_name,
 			'last_name'=>$last_name,
 			'OHIP'=>$ohip,
-			'birthday'=>$birthday
+			'birthday'=>$birthday,
+			'description'=>$description	
 		);	
 
 		$query = "SELECT * FROM users WHERE OHIP = '" . $ohip . "'";
@@ -284,6 +285,13 @@ class Users extends CI_Model {
 		$query_string = "UPDATE users 
 						 SET description = '" . $descr . "'" .
 						 " WHERE id = " . $user_id;
+		return $this->db->query($query_string);
+	}
+	
+	function getPatientsOfDoctor($doctor_id){
+		$query_string = "SELECT * 
+						 FROM users join (select user_id from users join prescriptions where doctor_id = " . $doctor_id . 
+						 " group by user_id) as a where users.id = a.user_id";
 		return $this->db->query($query_string);
 	}
 

@@ -41,14 +41,20 @@ class QRCodeGen extends CI_Controller {
 		$this->load->model("users");
 		if (isset($_GET["first_name"]) && isset($_GET["last_name"]) && isset($_GET["account_type_id"]) && isset($_GET["password"]) && isset($_GET["ohip"]) && isset($_GET["birthday"])){
 			try{									
-				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"], $_GET["birthday"]);
+				if (isset($_GET['description'])){
+					$desc = $_GET['description'];
+				} else {
+					$desc = "";
+				}
+				$retData = $this->users->addNewUser($_GET["first_name"], $_GET["last_name"], $_GET["account_type_id"], $_GET["password"], $_GET["ohip"], $_GET["birthday"], $desc);
 				if ($retData){
 					$data =  array("first_name"=>$_GET["first_name"],
 							   "last_name"=>$_GET["last_name"],
 							   "account_type_id"=>$_GET["account_type_id"],
 							   "password"=>$_GET["password"],
 							   "ohip"=>$_GET["ohip"],
-							   "birthday"=>$_GET["birthday"]
+							   "birthday"=>$_GET["birthday"],
+							   "description"=>$desc
 							);
 					echo "[" . json_encode($data) . "]";
 				} else {
@@ -162,8 +168,7 @@ class QRCodeGen extends CI_Controller {
 		}
 	}
 
-	public function editPresc(){
-				
+	public function editPresc(){				
 		$this->load->model("users");
 		if (isset($_GET["user_id"]) && isset($_GET["doctor_id"]) && isset($_GET["drug"])){
 			$uid = $_GET["user_id"];
@@ -188,12 +193,10 @@ class QRCodeGen extends CI_Controller {
 			if ($results->result_array() != null){		
 				echo json_encode($results->result_array());
 			}
-		
 		} else {
 			echo "FAIL: REQUIRED INFO NOT SET";
 		}
 	}
-	
 
 	public function editUser(){
 		$this->load->model("users");
@@ -387,6 +390,18 @@ class QRCodeGen extends CI_Controller {
 			if ($results->result_array() != null){		
 				echo json_encode($results->result_array());
 			}
+		} else {
+			echo "FAIL";
+		}
+	}
+	
+	public function getPatientsOfDoctor(){
+		if (isset($_GET["doctor_id"])){
+			$this->load->model("users");
+			$res = $this->users->getPatientsOfDoctor($_GET["doctor_id"]);
+			if ($res->result_array() != null){
+				echo json_encode($res->result_array());
+			}			
 		} else {
 			echo "FAIL";
 		}

@@ -19,12 +19,17 @@
 			jq.ajax({
 				url: sub_url,
 				success: function(data){
-					alert("Success!");
+					if (data != "FAIL"){
+						alert("Success!");
+					} else {
+						alert("User already exists in the database.");
+					}
 				},
 				error: function(xhr, ajaxOptions, thrownError){	
 					alert("Error: " + xhr.responseText);
 				}
 			});
+			jq('.field').val('');
 			return false;
 		});
 	});
@@ -72,11 +77,11 @@
 		<table>
 		<tr>
 			<td>First name: </td> 
-			<td><input required type="text" name="first_name"/></td>
+			<td><input class="field" required type="text" name="first_name"/></td>
 		</tr>
 		<tr>
 			<td>Last name: </td>
-			<td><input required type="text" name="last_name"/></td>
+			<td><input class="field" required type="text" name="last_name"/></td>
 		</tr> 
 		<tr> 
 			<td>Account type: </td>
@@ -87,12 +92,13 @@
   				<option value="3">Pharmacist</option>
 			</select> </td>
 		</tr>
-		<tr><td> Password: </td><td><input required type="password" name="password"/></td></tr>
-		<tr><td> Repeat password: </td><td><input required type="password" name="rep_password"/></td></tr>
-		<tr><td>OHIP ID: </td><td><input required type="text" name="ohip"/></td></tr>
-		<tr><td>Birthday: </td><td><input required type="text" name="birthday"/></td></tr>
+		<tr><td> Password: </td><td><input class="field" required type="password" name="password"/></td></tr>
+		<tr><td> Repeat password: </td><td><input class="field" required type="password" name="rep_password"/></td></tr>
+		<tr><td>OHIP ID: </td><td><input required class="field" type="text" name="ohip"/></td></tr>
+		<tr><td>Birthday: </td><td><input required class="field" type="text" name="birthday"/></td></tr>
 		<tr><td><input id="sub" type="submit" value="Register User"/></td></tr>
 		</table>	
+		<input type="hidden" name="description" value="">
 	</form>	
 	</div>
 </body>
