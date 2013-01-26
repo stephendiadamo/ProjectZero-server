@@ -146,3 +146,5 @@ http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/in
 Add description to user
 http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/addUserDescription/?user_id=3&description=testing
 
+getPatientsOfDoctor
+http://default-environment-ntmkc2r9ez.elasticbeanstalk.com/ProjectZero-server/index.php/QRCodeGen/getPatientsOfDoctor/?doctor_id=11
