@@ -90,7 +90,8 @@ class Users extends CI_Model {
 			'note'=>$note,
 			'date'=>$date,
 			'refills'=>$refills,
-			'times_filled'=>0
+			'times_filled'=>0,
+			'isValid'=>"yes"
 		);	
 		return $this->db->insert('prescriptions', $data);
 	}
