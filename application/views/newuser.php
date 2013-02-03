@@ -20,7 +20,7 @@
 				url: sub_url,
 				success: function(data){
 					if (data != "FAIL"){
-						alert("Success!");
+						window.open("http://www.pollev.com");	
 					} else {
 						alert("User already exists in the database.");
 					}
@@ -29,11 +29,11 @@
 					alert("Error: " + xhr.responseText);
 				}
 			});
-			jq('.field').val('');
+			jq('.field').val('');		
 			return false;
 		});
 	});
-		
+
 	</script>
 	<style type="text/css">
 	
@@ -99,7 +99,7 @@
 		<tr><td><input id="sub" type="submit" value="Register User"/></td></tr>
 		</table>	
 		<input type="hidden" name="description" value="">
-	</form>	
+	</form>
 	</div>
 </body>
 
